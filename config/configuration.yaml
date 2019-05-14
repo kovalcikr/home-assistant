@@ -15,3 +15,8 @@ homeassistant:
   # Double factor authorization
   auth_mfa_modules:
     - type: totp
+
+http:
+  base_url: !secret base_url
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
