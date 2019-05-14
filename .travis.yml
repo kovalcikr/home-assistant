@@ -1,0 +1,5 @@
+language: minimal
+services:
+  - docker
+script:
+  - docker run -v $PWD:/config:ro homeassistant/home-assistant python -m homeassistant --config /config --script check_config
