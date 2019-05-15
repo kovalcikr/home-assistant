@@ -20,3 +20,16 @@ http:
   base_url: !secret base_url
   ip_ban_enabled: true
   login_attempts_threshold: 5
+
+# Enables support for tracking state changes over time
+history:
+
+# Enables the frontend
+frontend:
+
+# View all events in a logbook
+logbook:
+
+automation: !include automation.yaml
+sensor: !include sensor.yaml
+switch: !include switch.yaml
