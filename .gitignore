@@ -1,2 +1,5 @@
 .idea/
 *.iml
+config/.storage/
+config/.HA_VERSION
+config/*.db
