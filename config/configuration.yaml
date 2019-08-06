@@ -1,10 +1,15 @@
 homeassistant:
   # Name of the location where Home Assistant is running
-  name: Home
+  name: !secret name
   # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: !secret elevation
   # metric for Metric, imperial for Imperial
+  unit_system: metric
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: !secret time_zone
   # Customization file
   customize: !include customize.yaml
   auth_mfa_modules:
@@ -15,6 +20,8 @@ homeassistant:
 
 notify:
   - platform: pushetta
+    api_key: !secret pushettaApiKey
+    channel_name: !secret pushettaChannelName
 
 # Enables the frontend
 frontend:
@@ -31,6 +38,9 @@ http:
   # Secrets are defined in the file secrets.yaml
   # api_password: !secret http_password
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  base_url: !secret base_url
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -61,14 +71,10 @@ sun:
 
 weather:
   - platform: darksky
+    api_key: !secret darkskyApiKey
     mode: daily
 
 input_select:
-  destination:
-    name: destination
-    options:
-      - Domov
-      - Praca
   zigbee2mqtt_log_level:
     name: Zigbee2mqtt Log Level
     options:
@@ -135,6 +141,8 @@ tts:
 
 media_player:
   - platform: spotify
+    client_id: !secret spotifyClientId
+    client_secret: !secret spotifyClientSecret
   - platform: kodi
     host: 192.168.0.164
 
