@@ -1,0 +1,59 @@
+homeassistant: true
+permit_join: true
+mqtt:
+  base_topic: zigbee2mqtt
+  server: 'mqtt://192.168.0.164'
+serial:
+  port: /dev/ttyACM0
+device_options:
+  temperature_precision: 1
+  humidity_precision: 0
+devices:
+  '0x00158d0002f8e002':
+    friendly_name: '0x00158d0002f8e002'
+    retain: false
+  '0x00158d00029bd05c':
+    friendly_name: '0x00158d00029bd05c'
+    retain: false
+  '0x00158d000323fd8b':
+    friendly_name: '0x00158d000323fd8b'
+    retain: false
+  '0x00158d000323d93c':
+    friendly_name: '0x00158d000323d93c'
+    retain: false
+  '0x00158d00026b6624':
+    friendly_name: '0x00158d00026b6624'
+    retain: false
+  '0x00158d0002f80bdb':
+    friendly_name: '0x00158d0002f80bdb'
+    retain: false
+  '0x00158d0002f940b6':
+    friendly_name: '0x00158d0002f940b6'
+    retain: false
+  '0x00158d00033b545a':
+    friendly_name: '0x00158d00033b545a'
+    retain: false
+  '0x00158d00029b1ef6':
+    friendly_name: '0x00158d00029b1ef6'
+    retain: false
+  '0x00158d0002c18f27':
+    friendly_name: '0x00158d0002c18f27'
+    retain: false
+  '0x00158d0003936bf2':
+    friendly_name: '0x00158d0003936bf2'
+    retain: false
+  '0x00158d000359130c':
+    friendly_name: '0x00158d000359130c'
+    retain: false
+  '0x00158d0003580f9e':
+    friendly_name: '0x00158d0003580f9e'
+    retain: false
+  '0x00158d0002ed894e':
+    friendly_name: '0x00158d0002ed894e'
+    retain: false
+  '0x00158d000314011d':
+    friendly_name: '0x00158d000314011d'
+    retain: false
+  '0x00158d0002fbdf00':
+    friendly_name: '0x00158d0002fbdf00'
+    retain: false

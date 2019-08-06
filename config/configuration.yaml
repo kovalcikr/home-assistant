@@ -1,40 +1,36 @@
 homeassistant:
   # Name of the location where Home Assistant is running
-  name: !secret name
+  name: Home
   # Location required to calculate the time the sun rises and sets
-  latitude: !secret latitude
-  longitude: !secret longitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: !secret elevation
   # metric for Metric, imperial for Imperial
-  unit_system: metric
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  time_zone: !secret time_zone
   # Customization file
   customize: !include customize.yaml
-  # Double factor authorization
   auth_mfa_modules:
     - type: totp
 
-http:
-  base_url: !secret base_url
-  ip_ban_enabled: true
-  login_attempts_threshold: 5
+# Show links to resources in log and frontend
+# introduction:
 
-# Enables support for tracking state changes over time
-history:
+notify:
+  - platform: pushetta
+
+# Enables the frontend
+frontend:
 
 # Enables configuration UI
 config:
 
 logger:
   default: warn
+  logs:
+    homeassistant.components.sensor.dht: debug
 
-# Enables the frontend
-frontend:
-
-# View all events in a logbook
-logbook:
+http:
+  # Secrets are defined in the file secrets.yaml
+  # api_password: !secret http_password
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -42,14 +38,20 @@ logbook:
 # For more information, please see:
 # https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
 updater:
-# Optional, allows Home Assistant developers to focus on popular components.
-# include_used_components: true
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
 
 # Discover some devices automatically
 #discovery:
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
 
 # Enables a map showing the location of tracked devices
 map:
@@ -59,11 +61,230 @@ sun:
 
 weather:
   - platform: darksky
-    api_key: !secret darksky_apikey
     mode: daily
 
-influxdb:
+input_select:
+  destination:
+    name: destination
+    options:
+      - Domov
+      - Praca
+  zigbee2mqtt_log_level:
+    name: Zigbee2mqtt Log Level
+    options:
+     - debug
+     - info
+     - warn
+     - error
+    initial: info
+    icon: mdi:format-list-bulleted
 
-automation: !include automation.yaml
-sensor: !include sensor.yaml
-switch: !include switch.yaml
+# Weather prediction
+sensor:
+  - platform: yr
+    name: Pocasie
+    monitored_conditions: 
+      - temperature
+      - humidity
+      - pressure
+      - windSpeed
+#  - platform: onewire
+#    names:
+#      10-000802690bea: Teplota
+  - platform: dht
+    name: Obyvacka
+    sensor: AM2302
+    pin: 23
+    monitored_conditions:
+      - temperature
+      - humidity
+ - platform: mqtt
+    name: Zigbee2mqtt Bridge state
+    state_topic: "zigbee2mqtt/bridge/state"
+    icon: mdi:router-wireless
+
+binary_sensor:
+  - platform: rpi_gpio
+    ports:
+      19: Skrina
+      13: Intenzita svetla
+    invert_logic: true
+  - platform: rpi_gpio
+    ports:
+      26: Chodba
+ 
+#android_ip_webcam:
+#  - host: 192.168.0.199
+#    scan_interval: 1
+#    sensors:
+#      - pressure
+#      - battery_level
+#    switches:
+#      - torch
+#      - video_recording
+#      - focus
+#      - whitebalance_lock
+
+# Text to speech
+tts:
+  - platform: google_translate
+    service_name: google_say
+
+# Cloud
+#cloud:
+
+media_player:
+  - platform: spotify
+  - platform: kodi
+    host: 192.168.0.164
+
+mqtt:
+  broker: localhost
+  port: 1883
+  discovery: true
+  client_id: home-assistant-1
+  keepalive: 60
+  protocol: 3.1
+  birth_message:
+    topic: "hass/status"
+    payload: "online"
+    qos: 1
+    retain: true
+  will_message:
+    topic: "hass/status"
+    payload: "offline"
+    qos: 1
+    retain: true
+
+switch:
+  - platform: rpi_gpio
+    ports:
+      6: LED
+    invert_logic: true
+  - platform: mqtt
+    name: "Zigbee2mqtt Main join"
+    state_topic: "zigbee2mqtt/bridge/config/permit_join"
+    command_topic: "zigbee2mqtt/bridge/config/permit_join"
+    payload_on: "true"
+    payload_off: "false"
+
+light:
+  - platform: mqtt
+    name: "Kuchyna LED"
+    state_topic: "stat/sonoff1/POWER"
+    command_topic: "cmnd/sonoff1/POWER"
+    availability_topic: "tele/sonoff1/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Aktivní"
+    payload_not_available: "Neaktivní"
+    retain: false
+  - platform: mqtt
+    name: Kuchyna pri okne
+    state_topic: "stat/sonoff2/POWER"
+    command_topic: "cmnd/sonoff2/POWER"
+    availability_topic: "tele/sonoff2/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Aktivní" 
+    payload_not_available: "Neaktivní"
+    retain: false
+  - platform: mqtt
+    name: Kuchyna chodbicka
+    state_topic: "stat/sonoff3/POWER"
+    command_topic: "cmnd/sonoff3/POWER"
+    availability_topic: "tele/sonoff3/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Aktivní" 
+    payload_not_available: "Neaktivní"
+    retain: false
+  - platform: mqtt
+    name: Obyvacka Lampa
+    state_topic: "stat/sonoff_liv1/POWER"
+    command_topic: "cmnd/sonoff_liv1/POWER"
+    availability_topic: "tele/sonoff_liv1/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online" 
+    payload_not_available: "Offline"
+    retain: false
+  - platform: mqtt
+    name: Chodbicka
+    state_topic: "stat/sonoff6/POWER"
+    command_topic: "cmnd/sonoff6/POWER"
+    availability_topic: "tele/sonoff6/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online" 
+    payload_not_available: "Offline"
+    retain: false
+  - platform: mqtt
+    name: Chodba
+    state_topic: "stat/sonoff5/POWER"
+    command_topic: "cmnd/sonoff5/POWER"
+    availability_topic: "tele/sonoff5/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online" 
+    payload_not_available: "Offline"
+    retain: false
+  - platform: mqtt
+    name: Detska izba
+    state_topic: "stat/sonoff-small/POWER"
+    command_topic: "cmnd/sonoff-small/POWER"
+    availability_topic: "tele/sonoff-small/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online" 
+    payload_not_available: "Offline"
+    retain: false
+  - platform: group
+    name: Kuchyna
+    entities: 
+      - light.kuchyna_chodbicka
+      - light.kuchyna_pri_okne
+  - platform: group
+    name: svetla1
+    entities:
+      - light.kuchyna
+      - light.chodba
+      - light.chodbicka
+      - light.detska_izba
+      - light.kuchyna_led
+  - platform: rpi_gpio_pwm
+    leds:
+      - name: LED telka
+        driver: gpio
+        pins: [17, 18, 27]
+        type: rgb
+      - name: LED skrinka
+        driver: gpio
+        pins: [16, 20, 21]
+        type: rgb
+
+#influxdb:
+
+# Input boolean for enabling/disabling joining
+input_boolean:
+  zigbee_permit_join:
+    name: Allow devices to join
+    initial: off
+    icon: mdi:cellphone-wireless
+
+# Timer for joining time remaining (120 sec = 2 min)
+timer:
+  zigbee_permit_join:
+    name: Time remaining
+    duration: 120
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml

@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+
+  mosquitto:
+    image: eclipse-mosquitto:${MOSQUITTO_TAG}
+    restart: always
+    network_mode: host
+
+  zigbee2mqtt:
+    image: koenkk/zigbee2mqtt:arm32v6
+#    image: koenkk/zigbee2mqtt:${ZIGBEE2MQTT_TAG}
+    restart: always
+    devices:
+      - /dev/ttyACM0
+#      - /dev/ttyS0
+    volumes:
+      - $PWD/zigbee2mqtt:/app/data
+#      - $PWD/zigbee2mqtt/data/zigbee-shepherd-converters:/app/node_modules/zigbee-shepherd-converters
+#      - $PWD/zigbee2mqtt/data/lib/extension/homeassistant.js:/app/lib/extension/homeassistant.js
+
+  influxdb:
+    image: influxdb:${INFLUXDB_TAG}
+    restart: always
+    network_mode: host
+    volumes:
+      - influxdb:/var/lib/influxdb
+
+  home-assistant:
+    image: homeassistant/armhf-homeassistant:${HOME_ASSISTANT_TAG}
+#    image: homeassistant/home-assistant:${HOME_ASSISTANT_TAG}
+    restart: always
+    privileged: true
+    network_mode: host
+    volumes:
+      - $PWD/config:/config
+
+volumes:
+  zigbee2mqtt:
+  influxdb:

@@ -1,0 +1,388 @@
+- alias: Vypnut vsetky svetla po 2 minutach
+  trigger:
+    platform: state
+    entity_id: automation.vypnut_vsetky_svetla_po_2_minutach
+    to: 'on'
+    for:
+      minutes: 2
+  action:
+  - service: homeassistant.turn_off
+    entity_id: group.all_lights
+  - service: homeassistant.turn_off
+    entity_id: automation.vypnut_vsetky_svetla_po_2_minutach
+  id: bec4503f0045449497b3a410b85f4ae6
+- id: xiaomi1_click
+  alias: Xiaomi button click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d0002f8e002
+  condition:
+    condition: template
+    value_template: '{{ "single" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.obyvacka_lampa
+    service: light.toggle
+- id: xiaomi1_double_click
+  alias: Xiaomi button double click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d0002f8e002
+  condition:
+    condition: template
+    value_template: '{{ "double" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.led_telka
+    service: light.toggle
+- id: xiaomi1_long_click
+  alias: Xiaomi button long click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d0002f8e002
+  condition:
+    condition: template
+    value_template: '{{ "long" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.svetla1
+    service: light.turn_off
+- id: xiaomi1_quadruple_click
+  alias: Xiaomi button quadruple click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d0002f8e002
+  condition:
+    condition: template
+    value_template: '{{ "quadruple" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.chodbicka
+    service: light.turn_on
+- id: xiaomi1_triple_press
+  alias: Xiaomi button triple click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d0002f8e002
+  condition:
+    condition: template
+    value_template: '{{ "triple" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.kuchyna_led
+    service: light.turn_on
+- id: xiaomi2_click
+  alias: Xiaomi 2 button click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d000323fd8b
+  condition:
+    condition: template
+    value_template: '{{ "single" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.chodba
+    service: light.toggle
+- id: xiaomi2_long
+  alias: Xiaomi 2 button click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d000323fd8b
+  condition:
+    condition: template
+    value_template: '{{ "long" == trigger.payload_json.click }}'
+  action:
+    entity_id: group.all_lights
+    service: light.turn_off
+- id: xiaomi3_click
+  alias: Xiaomi 3 button click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d00026b6624
+  condition:
+    condition: template
+    value_template: '{{ "single" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.kuchyna_led
+    service: light.toggle
+- id: xiaomi3_double
+  alias: Xiaomi 3 button click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d00026b6624
+  condition:
+    condition: template
+    value_template: '{{ "double" == trigger.payload_json.click }}'
+  action:
+    entity_id: group.kitchen
+    service: light.turn_on
+- id: xiaomi3_long
+  alias: Xiaomi 3 button click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d00026b6624
+  condition:
+    condition: template
+    value_template: '{{ "long" == trigger.payload_json.click }}'
+  action:
+    entity_id: group.kitchen
+    service: light.turn_off
+- id: xiaomi4_click
+  alias: Xiaomi button 4 click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d000323d93c
+  condition:
+    condition: template
+    value_template: '{{ "single" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.kuchyna
+    service: light.toggle
+- id: xiaomi4_double_click
+  alias: Xiaomi button 4 double click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d000323d93c
+  condition:
+    condition: template
+    value_template: '{{ "double" == trigger.payload_json.click }}'
+  action:
+    entity_id: group.kitchen
+    service: light.turn_on
+- id: xiaomi4_triple_click
+  alias: Xiaomi button 4 triple click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d000323d93c
+  condition:
+    condition: template
+    value_template: '{{ "triple" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.chodba
+    service: light.toggle
+- id: xiaomi4_many_click
+  alias: Xiaomi button 4 many click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d000323d93c
+  condition:
+    condition: template
+    value_template: '{{ "many" == trigger.payload_json.click }}'
+  action:
+    entity_id: group.all_lights
+    service: light.turn_on
+- id: xiaomi4_long_click
+  alias: Xiaomi button 4 long click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d000323d93c
+  condition:
+    condition: template
+    value_template: '{{ "long" == trigger.payload_json.click }}'
+  action:
+    entity_id: group.kitchen
+    service: light.turn_off
+- id: xiaomi5_click
+  alias: Xiaomi button 5 click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d0002f940b6
+  condition:
+    condition: template
+    value_template: '{{ "single" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.chodba
+    service: light.toggle
+- id: xiaomi6_click
+  alias: Xiaomi button 6 click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d0002f80bdb
+  condition:
+    condition: template
+    value_template: '{{ "single" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.chodbicka
+    service: light.toggle
+- id: xiaomi_cube_shake
+  alias: Xiaomi cube shake
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d00029bd05c
+  condition:
+    condition: template
+    value_template: '{{ "shake" == trigger.payload_json.action }}'
+  action:
+    entity_id: light.kuchyna
+    service: light.toggle
+- alias: Zigbee2mqtt Log Level
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.zigbee2mqtt_log_level
+    to: debug
+  - platform: state
+    entity_id: input_select.zigbee2mqtt_log_level
+    to: warn
+  - platform: state
+    entity_id: input_select.zigbee2mqtt_log_level
+    to: error
+  - platform: state
+    entity_id: input_select.zigbee2mqtt_log_level
+    to: info
+  action:
+  - service: mqtt.publish
+    data:
+      payload_template: '{{ states(''input_select.zigbee2mqtt_log_level'') }}'
+      topic: zigbee2mqtt/bridge/config/log_level
+  id: 65c664fa798047c69712cf01714b2460
+- id: enable_zigbee_join
+  alias: Enable Zigbee joining
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: input_boolean.zigbee_permit_join
+    to: 'on'
+  action:
+  - service: mqtt.publish
+    data:
+      topic: zigbee2mqtt/bridge/config/permit_join
+      payload: 'true'
+  - service: timer.start
+    data:
+      entity_id: timer.zigbee_permit_join
+- id: disable_zigbee_join
+  alias: Disable Zigbee joining
+  hide_entity: true
+  trigger:
+  - entity_id: input_boolean.zigbee_permit_join
+    platform: state
+    to: 'off'
+  action:
+  - data:
+      payload: 'false'
+      topic: zigbee2mqtt/bridge/config/permit_join
+    service: mqtt.publish
+  - data:
+      entity_id: timer.zigbee_permit_join
+    service: timer.cancel
+- id: entrance_movement_on
+  alias: Turn on entrance light when there is movement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.0x00158d0002ed894e_occupancy
+    to: 'on'
+  action:
+    service: light.turn_on
+    entity_id: light.chodba
+- id: entrance_motion_off
+  alias: Turn off entrance light when there is movement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.0x00158d0002ed894e_occupancy
+    to: 'off'
+    for:
+      seconds: 5
+  action:
+    service: light.turn_off
+    entity_id: light.chodba
+- id: kitchen_movement_on
+  alias: Turn on kitchen light when there is movement
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.0x00158d0002c18f27_occupancy
+    to: 'on'
+  action:
+    service: light.turn_on
+    entity_id: light.kuchyna_led
+- id: kitchen_motion_off
+  alias: Turn off kitchen light when there is movement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.0x00158d0002c18f27_occupancy
+    to: 'off'
+    for:
+      minutes: 1
+  action:
+    service: light.turn_off
+    entity_id: light.kuchyna_led
+- id: kitchen_movement_on
+  alias: Turn on kitchen light when there is movement
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.0x00158d0002c18f27_occupancy
+    to: 'on'
+  action:
+    service: light.turn_on
+    entity_id: light.kuchyna_led
+- id: kitchen_motion_off
+  alias: Turn off kitchen light when there is movement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.0x00158d0002c18f27_occupancy
+    to: 'off'
+    for:
+      minutes: 1
+  action:
+    service: light.turn_off
+    entity_id: light.kuchyna_led
+- id: kitchen_movement_on
+  alias: Turn on kitchen light when there is movement
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.0x00158d0002c18f27_occupancy
+    to: 'on'
+  action:
+    service: light.turn_on
+    entity_id: light.kuchyna_led
+- id: kitchen_motion_off
+  alias: Turn off kitchen light when there is movement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.0x00158d0002c18f27_occupancy
+    to: 'off'
+    for:
+      minutes: 1
+  action:
+    service: light.turn_off
+    entity_id: light.kuchyna_led
+- id: kitchen_movement_on
+  alias: Turn on kitchen light when there is movement
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.0x00158d0002c18f27_occupancy
+    to: 'on'
+  action:
+    service: light.turn_on
+    entity_id: light.kuchyna_led
+- id: kitchen_motion_off
+  alias: Turn off kitchen light when there is movement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.0x00158d0002c18f27_occupancy
+    to: 'off'
+    for:
+      minutes: 1
+  action:
+    service: light.turn_off
+    entity_id: light.kuchyna_led
+- id: entrance_door_on
+  alias: Turn on entrance light when doors are open
+  trigger:
+    platform: state
+    entity_id: binary_sensor.0x00158d00029b1ef6_contact
+    to: 'on'
+  action:
+    service: light.turn_on
+    entity_id: light.chodba
+- id: '1564238625231'
+  alias: Vyliat vedro
+  trigger:
+  - entity_id: binary_sensor.0x00158d0003580f9e_water_leak
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      message: Vyliať vedro
+      title: Klimatizácia
+    service: notify.notify
