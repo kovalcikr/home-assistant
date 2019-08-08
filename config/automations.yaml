@@ -262,6 +262,10 @@
     service: timer.cancel
 - id: entrance_movement_on
   alias: Turn on entrance light when there is movement
+  condition:
+    condition: time
+    after: '7:00:00'
+    before: '23:55:00'
   trigger:
     platform: state
     entity_id: binary_sensor.0x00158d0002ed894e_occupancy
@@ -271,6 +275,10 @@
     entity_id: light.chodba
 - id: entrance_motion_off
   alias: Turn off entrance light when there is movement
+  condition:
+    condition: time
+    after: '7:00:00'
+    before: '23:55:00'
   trigger:
     platform: state
     entity_id: binary_sensor.0x00158d0002ed894e_occupancy
@@ -282,6 +290,10 @@
     entity_id: light.chodba
 - id: kitchen_movement_on
   alias: Turn on kitchen light when there is movement
+  condition:
+    condition: time
+    after: '7:00:00'
+    before: '23:55:00'
   hide_entity: true
   trigger:
     platform: state
@@ -292,6 +304,10 @@
     entity_id: light.kuchyna_led
 - id: kitchen_motion_off
   alias: Turn off kitchen light when there is movement
+  condition:
+    condition: time
+    after: '7:00:00'
+    before: '23:55:00'
   trigger:
     platform: state
     entity_id: binary_sensor.0x00158d0002c18f27_occupancy
