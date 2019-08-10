@@ -317,7 +317,7 @@
   action:
     service: light.turn_off
     entity_id: light.kuchyna_led
-  id: entrance_door_on
+- id: entrance_door_on
   alias: Turn on entrance light when doors are open
   trigger:
     platform: state
