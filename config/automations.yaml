@@ -198,6 +198,17 @@
   action:
     entity_id: light.chodbicka
     service: light.toggle
+- id: xiaomi7_click
+  alias: Xiaomi button 7 click
+  trigger:
+    platform: mqtt
+    topic: zigbee2mqtt/0x00158d0002fbdf00
+  condition:
+    condition: template
+    value_template: '{{ "single" == trigger.payload_json.click }}'
+  action:
+    entity_id: light.chodbicka
+    service: light.toggle
 - id: xiaomi_cube_shake
   alias: Xiaomi cube shake
   trigger:
